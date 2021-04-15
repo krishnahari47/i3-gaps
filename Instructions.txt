@@ -1,0 +1,106 @@
+The Steps You Need to do copy my setup are,
+
+This for arch, so you might wanna use your distro's package manager such as apt or dnf or build from source
+
+You need to install acpilight if you have an AMD gpu or you're fine with xbacklight for intel
+
+------------------------------------------------------------------------------------
+
+sudo pacman -S i3-gaps rofi pcmanfm lxsession nitrogen picom acpilight python-pywal xfce4-power-manager
+
+yay -S networkmanager-dmenu-git polybar betterlockscreen
+
+------------------------------------------------------------------------------------
+
+Once everything is done, You can copy the config files and login to i3 
+
+To enable pywal, open the terminal and run the following command 
+
+wal -R 
+
+-----------------------------------------------------------------------------------
+My keybindings are
+
+Mod key = super/windows key
+
+Mod+q = Powermenu 
+Mod+x = Lock screen with betterlockscreen 
+Mod+d = Rofi 
+Mod+p = Browser - Chrome 
+Mod+m = FIle Manager - pcmanfm 
+Mod+Shift+q = closes the focused window 
+Mod+Shift+r = Reloads i3 while maintaining the current session 
+Mod+Shift+e = logs out of i3 upon confirmation 
+
+-----------------------------------------------------------------------------------
+
+If you don't have tap to click on touchpad incase you're on a laptop, copy and run this command on your terminal
+
+------
+sudo mkdir -p /etc/X11/xorg.conf.d && sudo tee <<'EOF' /etc/X11/xorg.conf.d/90-touchpad.conf 1> /dev/null 
+Section "InputClass" 
+        Identifier "touchpad" 
+        MatchIsTouchpad "on" 
+        Driver "libinput" 
+        Option "Tapping" "on" 
+EndSection 
+
+EOF
+-----
+
+If you wanna enable natural scrolling on your trackpad, then do this
+
+You need to open this as sudo 
+
+Edit /usr/share/X11/xorg.conf.d/40-libinput.conf
+
+Add there Option "NaturalScrolling" "True" like this:
+
+For your mouse:
+
+# Match on all types of devices but joysticks 
+Section "InputClass" 
+        Identifier "libinput pointer catchall" 
+        MatchIsPointer "on" 
+        MatchDevicePath "/dev/input/event*" 
+        Driver "libinput" 
+        Option "NaturalScrolling" "True" 
+EndSection 
+For your touchpad: 
+
+Section "InputClass" 
+        Identifier "libinput touchpad catchall" 
+        MatchIsTouchpad "on" 
+        MatchDevicePath "/dev/input/event*" 
+        Driver "libinput" 
+        Option "NaturalScrolling" "True" 
+EndSection 
+
+
+Then Reboot for the changes to apply.
+
+---------------------------
+
+If the Brightness Keys aren't working then, download xorg-xbacklight if you use intel graphics or acpilight if AMD and then add your user to the video group and then reboot.
+
+The commands are,
+
+You can only install one package so choose based on your gpu.
+
+sudo pacman -S xorg-xbacklight/acpilight
+
+Then add your user to the video group with the following command
+
+sudo usermod –a –G group_name user_name
+
+Check if your user is in the video group by running
+
+groups user_name
+
+Then reboot to apply changes
+
+
+
+
+
+
